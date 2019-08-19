@@ -2,12 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
-/**
- * @author Vadim Rommer 312763436
- * This class contains static methods that translate cell number into coordinates
- * on the sudoku board, and the oposite. A cell is a pair (x,y).
- */
+package com.rommer.vadim.sudoku;
 public class Coordinator {
     
     /**

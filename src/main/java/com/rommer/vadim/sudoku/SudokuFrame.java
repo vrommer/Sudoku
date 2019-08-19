@@ -1,9 +1,18 @@
+package com.rommer.vadim.sudoku;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JFrame;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+
 import javax.swing.JOptionPane;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,6 +20,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -20,15 +31,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-/**
- *
- * @author Vadim Rommer 312763436
- */
-
-
-
 public class SudokuFrame extends JFrame {
-    private JTextField _textField;  // text field for level
+
+	private static final long serialVersionUID = 1L;
+	private JTextField _textField;  // text field for level
     private JTextField _comment;    // filed to put in some comments
     private SudokuJPanel _panel;    // punnel for sudoku game
     private JPanel _buttonPanel;    // panel for buttons    
@@ -52,6 +58,7 @@ public class SudokuFrame extends JFrame {
         
         super ("Good Luck!");       
         
+        String currentDir = System.getProperty("user.dir");
         ButtonListener buttonHandler = new ButtonListener();
         String level;
         int butlen = 5;
@@ -65,7 +72,7 @@ public class SudokuFrame extends JFrame {
         _buttonGroup = new ButtonGroup();
         _messages = new String[]{"Great!!","Good!!",
             "Nice!","Excellent!!","Way to go!!"};
-        _comment = new JTextField("");
+        _comment = new JTextField("Welcome!");
         
         _comment.setEditable(false);
         _comment.setFont(new Font("SansSarif",Font.BOLD, 14));
@@ -76,24 +83,26 @@ public class SudokuFrame extends JFrame {
         // for levels
         altOptions = new String[]{"Start","Restart","Clear","Retry","Result"};
         altLevels = new String[]{"Easy","Medium","Hard"};
-        
+        System.out.println(currentDir);
         try {
-            _options[0] = new ImageIcon( getClass().getResource( "start.png" ) );
-            _options[1] = new ImageIcon( getClass().getResource( "restart.png" ) );
-            _options[2] = new ImageIcon( getClass().getResource( "clear.png" ) );
-            _options[3] = new ImageIcon( getClass().getResource( "retry.png" ) );
-            _options[4] = new ImageIcon( getClass().getResource( "result.png" ) );
+            _options[0] = new ImageIcon( getImage( currentDir + "/resources/start.png" ) );
+            _options[1] = new ImageIcon( getImage( currentDir + "/resources/restart.png" ) );
+            _options[2] = new ImageIcon( getImage( currentDir + "/resources/clear.png" ) );
+            _options[3] = new ImageIcon( getImage( currentDir + "/resources/retry.png" ) );
+            _options[4] = new ImageIcon( getImage( currentDir + "/resources/result.png" ) );
             _optionFileNotFound = false;
         } catch (Exception e){
+        		e.printStackTrace();
             _optionFileNotFound = true;
         } try {
-            _levels[0] = new ImageIcon( getClass().getResource( "easy.png" ) );
-            _levels[1] = new ImageIcon( getClass().getResource( "medium.png" ) );
-            _levels[2] = new ImageIcon( getClass().getResource( "hard.png" ) );
-            notChoosen = new ImageIcon( getClass().getResource( "not_choosen.png") );
-            onFocus = new ImageIcon( getClass().getResource( "on_focus.png") );
+            _levels[0] = new ImageIcon( getImage( currentDir + "/resources/easy.png" ) );
+            _levels[1] = new ImageIcon( getImage( currentDir + "/resources/medium.png" ) );
+            _levels[2] = new ImageIcon( getImage( currentDir + "/resources/hard.png" ) );
+            notChoosen = new ImageIcon( getImage( currentDir + "/resources/not_choosen.png") );
+            onFocus = new ImageIcon( getImage( currentDir + "/resources/on_focus.png") );
             _levelFileNotFound = false;
         } catch (Exception e){
+        		e.printStackTrace();
             _levelFileNotFound = true;
         }
         
@@ -146,6 +155,16 @@ public class SudokuFrame extends JFrame {
     public SudokuJPanel getPanel() {
         return _panel;
     }
+	
+	private BufferedImage getImage(String imageUri) {
+		BufferedImage img = null;
+		try {
+		    img = ImageIO.read(new File(imageUri));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return img;
+	}
 
     // private inner class for handling buttons
     private class ButtonListener implements ActionListener, ItemListener {
@@ -228,7 +247,7 @@ public class SudokuFrame extends JFrame {
             }   // end if
             else if ( (e.getSource().getClass() == (JRadioButton.class)) ){
                 source2 = (JRadioButton) e.getSource();
-                label = source2.getLabel(); // read the label of button.
+                label = source2.getText(); // read the label of button.
                     switch(label){
                     case "Easy":
                         _radioButtons[1].setIcon(notChoosen);
@@ -258,7 +277,7 @@ public class SudokuFrame extends JFrame {
         @Override
         public void itemStateChanged(ItemEvent e) {
             source2 = (JRadioButton) e.getSource();
-            _textField.setText(source1.getLabel());
+            _textField.setText(source1.getText());
         }
     }
     

@@ -1,2 +1,0 @@
-java Tester
-pause

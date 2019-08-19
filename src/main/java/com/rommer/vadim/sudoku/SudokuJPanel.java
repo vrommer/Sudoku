@@ -1,3 +1,5 @@
+package com.rommer.vadim.sudoku;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JPanel;
@@ -10,7 +12,9 @@ import java.awt.geom.Rectangle2D;
  * @author vadim rommer 312763436
  */
 public class SudokuJPanel extends JPanel {
-    public SudokuGameplay play;
+
+	private static final long serialVersionUID = 1L;
+	public SudokuGameplay play;
     private Font font;
     public static final int GRAD = 70;  // height and width of a square cell
     private static final int _HEIGHT = GRAD * 3;    // height of 3 cells

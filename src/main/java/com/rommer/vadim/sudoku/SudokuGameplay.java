@@ -1,3 +1,5 @@
+package com.rommer.vadim.sudoku;
+
 import java.util.Random;
 import javax.swing.JOptionPane;
 /*
@@ -6,9 +8,6 @@ import javax.swing.JOptionPane;
  * and open the template in the editor.
  */
 
-/**
- * @author Vadim Rommer 312763436
- */
 public class SudokuGameplay {
     private boolean _started;   //  indicates if the game was started
     private SudokuCell [][] _board; // array of cells
