@@ -1,6 +1,6 @@
 # Sudoku
 A simple java desktop implementation of a soduko game.
-## Running on windows:
+## Build and run
 1. Download
 2. maven clean install  
 3. Run jar file - play a game of soduko
